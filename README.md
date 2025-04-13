@@ -49,7 +49,6 @@ All code in this repository is:
 | State         | React Context               |
 | Date Handling | date-fns + react-day-picker |
 
-
 ## Evaluation Focus Areas
 
 1. **UI Implementation**
@@ -77,14 +76,16 @@ All code in this repository is:
    Install dependencies:
    ```
 
-bash
+````bash
 Copy
 npm install
 Run evaluation version:
 
-bash
+```bash
 Copy
 npm run dev
+````
+
 Important Legal Notice
 The code and design contained in this repository represent original work created for evaluation purposes. Any unauthorized:
 
