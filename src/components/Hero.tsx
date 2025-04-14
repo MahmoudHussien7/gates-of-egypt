@@ -1,4 +1,3 @@
-// components/Hero.tsx
 "use client";
 
 import { useState } from "react";
@@ -28,7 +27,6 @@ import {
 } from "react-icons/fa";
 import Image from "next/image";
 import { format } from "date-fns";
-import heroImg from "../../public/HeroBG.png";
 import ChakraCalendar from "./ChakraCalender";
 
 // Motion props for MenuList animation
@@ -44,7 +42,10 @@ export default function Hero() {
   const [location, setLocation] = useState("Cairo, Egypt");
 
   // State for date range
-  const [dateRange, setDateRange] = useState({
+  const [dateRange, setDateRange] = useState<{
+    from: Date;
+    to: Date | null;
+  }>({
     from: new Date(2025, 2, 19),
     to: new Date(2025, 2, 27),
   });
@@ -87,15 +88,18 @@ export default function Hero() {
   };
 
   // Handle date selection
-  const handleDateSelect = (range) => {
-    setDateRange(range);
-    if (range?.to) {
+  const handleDateSelect = (range: { from?: Date; to: Date | null }) => {
+    setDateRange((prev) => ({ ...prev, ...range }));
+    if (range.to !== null) {
       onDateClose();
     }
   };
 
   // Handle guest count changes
-  const handleGuestChange = (type, operation) => {
+  const handleGuestChange = (
+    type: keyof typeof guests,
+    operation: "increment" | "decrement"
+  ) => {
     setGuests((prev) => ({
       ...prev,
       [type]:
@@ -110,7 +114,7 @@ export default function Hero() {
       {/* Background Image */}
       <Box position="absolute" inset={0}>
         <Image
-          src={heroImg || "/placeholder.svg"}
+          src="/HeroBG.png"
           alt="Luxury Egyptian hotel room with pyramids view"
           fill
           style={{ objectFit: "cover" }}
@@ -212,7 +216,6 @@ export default function Hero() {
 
               <MenuList
                 bg="#FFFFFF40"
-                blur="10px"
                 color="#F6EEE5"
                 borderRadius="xl"
                 border="none"
@@ -354,7 +357,6 @@ export default function Hero() {
               </MenuButton>
               <MenuList
                 bg="#FFFFFF40"
-                blur={10}
                 color="white"
                 borderRadius="lg"
                 border="none"
@@ -383,7 +385,12 @@ export default function Hero() {
                       <HStack>
                         <IconButton
                           icon={<FaMinus />}
-                          onClick={() => handleGuestChange(type, "decrement")}
+                          onClick={() =>
+                            handleGuestChange(
+                              type as keyof typeof guests,
+                              "decrement"
+                            )
+                          }
                           size="sm"
                           bg="transparent"
                           color="#d2ac71"
@@ -392,12 +399,19 @@ export default function Hero() {
                           border="1px solid"
                           borderRadius={"full"}
                         />
-                        <Text>{guests[type]}</Text>
+                        <Text>
+                          {guests[type as "adults" | "children" | "rooms"]}
+                        </Text>
                         <IconButton
                           icon={<FaPlus />}
-                          onClick={() => handleGuestChange(type, "increment")}
+                          onClick={() =>
+                            handleGuestChange(
+                              type as keyof typeof guests,
+                              "increment"
+                            )
+                          }
                           size="sm"
-                          bg="transparent "
+                          bg="transparent"
                           border="1px solid"
                           borderRadius={"full"}
                           color="#d2ac71"

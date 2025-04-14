@@ -1,5 +1,7 @@
 "use client";
 
+import type React from "react";
+
 import { useState, useRef, useEffect } from "react";
 import {
   Box,
@@ -27,7 +29,6 @@ import {
   FaMapMarkerAlt,
 } from "react-icons/fa";
 import Link from "next/link";
-import logo from "../../public/LOGO 2.png";
 import Image from "next/image";
 
 export default function Navbar() {
@@ -45,18 +46,18 @@ export default function Navbar() {
     location.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleLinkClick = (link) => setActiveLink(link);
+  const handleLinkClick = (link: string) => setActiveLink(link);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     setIsSearchActive(false);
   };
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  const handleSearchSelect = (location) => {
+  const handleSearchSelect = (location: string) => {
     setSearchQuery(location);
     setIsSearchActive(false);
   };
@@ -66,8 +67,8 @@ export default function Navbar() {
     setIsSearchActive(false);
   };
 
-  const handleOutsideClick = (e) => {
-    if (searchRef.current && !searchRef.current.contains(e.target)) {
+  const handleOutsideClick = (e: MouseEvent) => {
+    if (searchRef.current && !(searchRef.current as any).contains(e.target)) {
       setIsSearchActive(false);
     }
   };
@@ -89,7 +90,7 @@ export default function Navbar() {
         <Flex justify="space-between" align="center" flexWrap="wrap">
           {/* Logo */}
           <Flex align="center" direction={"column"} gap={1} cursor="pointer">
-            <Image src={logo} alt="Logo" width={100} height={58} />
+            <Image src="/LOGO 2.png" alt="Logo" width={100} height={58} />
             <Text color="white" fontSize="lg" fontWeight="bold">
               <Text as="span" color="#d2ac71">
                 Egy
@@ -474,7 +475,7 @@ export default function Navbar() {
                                 cursor="pointer"
                                 onClick={handleSeeAllResults}
                               >
-                                See all results for "{searchQuery}"
+                                See all results for {searchQuery}
                               </Text>
                             )}
                           </>

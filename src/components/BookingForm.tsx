@@ -12,7 +12,6 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
-  Input,
   VStack,
   HStack,
   IconButton,
@@ -82,7 +81,10 @@ const BookingForm = () => {
   };
 
   // Handle guest changes
-  const handleGuestChange = (type, operation) => {
+  const handleGuestChange = (
+    type: keyof typeof guests,
+    operation: "increment" | "decrement"
+  ) => {
     setGuests((prev) => ({
       ...prev,
       [type]:
@@ -213,7 +215,12 @@ const BookingForm = () => {
             <DayPicker
               mode="range"
               selected={dateRange}
-              onSelect={setDateRange}
+              onSelect={(range) =>
+                setDateRange({
+                  from: range?.from || new Date(),
+                  to: range?.to || new Date(),
+                })
+              }
               defaultMonth={new Date(2025, 2)} // March 2025
               numberOfMonths={2}
               className="text-white"
@@ -250,6 +257,7 @@ const BookingForm = () => {
                 <Text>Adults</Text>
                 <HStack>
                   <IconButton
+                    aria-label="Decrease adults"
                     icon={<FaMinus />}
                     onClick={() => handleGuestChange("adults", "decrement")}
                     size="sm"
@@ -258,6 +266,7 @@ const BookingForm = () => {
                   />
                   <Text>{guests.adults}</Text>
                   <IconButton
+                    aria-label="Increase adults"
                     icon={<FaPlus />}
                     onClick={() => handleGuestChange("adults", "increment")}
                     size="sm"
@@ -270,6 +279,7 @@ const BookingForm = () => {
                 <Text>Children</Text>
                 <HStack>
                   <IconButton
+                    aria-label="Decreasing childs"
                     icon={<FaMinus />}
                     onClick={() => handleGuestChange("children", "decrement")}
                     size="sm"
@@ -278,6 +288,7 @@ const BookingForm = () => {
                   />
                   <Text>{guests.children}</Text>
                   <IconButton
+                    aria-label="increasing childs"
                     icon={<FaPlus />}
                     onClick={() => handleGuestChange("children", "increment")}
                     size="sm"
@@ -295,6 +306,7 @@ const BookingForm = () => {
                     size="sm"
                     bg="gray.600"
                     _hover={{ bg: "gray.500" }}
+                    aria-label={""}
                   />
                   <Text>{guests.infants}</Text>
                   <IconButton
@@ -303,6 +315,7 @@ const BookingForm = () => {
                     size="sm"
                     bg="gray.600"
                     _hover={{ bg: "gray.500" }}
+                    aria-label={""}
                   />
                 </HStack>
               </HStack>
@@ -315,6 +328,7 @@ const BookingForm = () => {
                     size="sm"
                     bg="gray.600"
                     _hover={{ bg: "gray.500" }}
+                    aria-label={""}
                   />
                   <Text>{guests.rooms}</Text>
                   <IconButton
@@ -323,6 +337,7 @@ const BookingForm = () => {
                     size="sm"
                     bg="gray.600"
                     _hover={{ bg: "gray.500" }}
+                    aria-label={""}
                   />
                 </HStack>
               </HStack>
