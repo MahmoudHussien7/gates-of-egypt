@@ -25,14 +25,11 @@ import {
   FaMinus,
   FaPlus,
   FaChevronDown,
-  FaChevronLeft,
-  FaChevronRight,
 } from "react-icons/fa";
 import Image from "next/image";
-import { DayPicker } from "react-day-picker";
-import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
 import heroImg from "../../public/HeroBG.png";
+import ChakraCalendar from "./ChakraCalender";
 
 // Motion props for MenuList animation
 const menuMotionProps = {
@@ -91,8 +88,7 @@ export default function Hero() {
 
   // Handle date selection
   const handleDateSelect = (range) => {
-    const newRange = range || { from: null, to: null };
-    setDateRange(newRange);
+    setDateRange(range);
     if (range?.to) {
       onDateClose();
     }
@@ -114,7 +110,7 @@ export default function Hero() {
       {/* Background Image */}
       <Box position="absolute" inset={0}>
         <Image
-          src={heroImg}
+          src={heroImg || "/placeholder.svg"}
           alt="Luxury Egyptian hotel room with pyramids view"
           fill
           style={{ objectFit: "cover" }}
@@ -266,7 +262,6 @@ export default function Hero() {
             </Menu>
 
             {/* Calendar Picker */}
-            {/* Calendar Picker */}
             <Menu
               isOpen={isDateOpen}
               onClose={onDateClose}
@@ -318,196 +313,12 @@ export default function Hero() {
                 motionProps={menuMotionProps}
               >
                 <Box p={4} borderRadius="lg">
-                  <style jsx global>{`
-                    /* Override react-day-picker CSS variables */
-                    .rdp {
-                      --rdp-range_start-date-background-color: #d2ac71;
-                      --rdp-range_end-date-background-color: #d2ac71;
-                      --rdp-selected-date-background-color: #d2ac71;
-                      --rdp-range_middle-date-background-color: #f5e1bb;
-                      --rdp-selected-border: none;
-                      --rdp-range_start-border: none;
-                      --rdp-range_end-border: none;
-                    }
-
-                    /* Ensure no blue outline on focus */
-                    .rdp-day:focus,
-                    .rdp-day_button:focus {
-                      outline: none !important;
-                      box-shadow: none !important;
-                    }
-
-                    /* Override selected, range start, and range end styles */
-                    .rdp-day_selected,
-                    .rdp-day_range_start,
-                    .rdp-day_range_end {
-                      background-color: #d2ac71 !important;
-                      color: black !important;
-                      border: none !important;
-                    }
-
-                    /* Override range middle */
-                    .rdp-day_range_middle {
-                      background-color: #f5e1bb !important;
-                      color: black !important;
-                    }
-
-                    /* Override hover and focus states */
-                    .rdp-day:hover,
-                    .rdp-day_button:hover,
-                    .rdp-day_focused {
-                      background-color: #d2ac71 !important;
-                      color: black !important;
-                    }
-
-                    /* Ensure today has your custom border */
-                    .rdp-day_today {
-                      border: 1px solid #d2ac71 !important;
-                    }
-                  `}</style>
-                  <DayPicker
-                    mode="range"
-                    selected={dateRange}
-                    onSelect={handleDateSelect}
-                    defaultMonth={new Date(2025, 1)}
-                    numberOfMonths={2}
-                    styles={{
-                      root: { width: "100%", background: "transparent" },
-                      months: {
-                        display: "flex",
-                        gap: "40px",
-                        backgroundColor: "#3C3C3C",
-                      },
-                      month: { backgroundColor: "#3C3C3C", padding: "0" },
-                      caption: {
-                        color: "white",
-                        fontWeight: "bold",
-                        fontSize: "16px",
-                        marginBottom: "10px",
-                        backgroundColor: "#3C3C3C",
-                      },
-                      caption_label: { backgroundColor: "#3C3C3C" },
-                      nav: { backgroundColor: "#3C3C3C" },
-                      head: { color: "#D2AC71", backgroundColor: "#3C3C3C" },
-                      head_row: {
-                        color: "#D2AC71",
-                        backgroundColor: "#3C3C3C",
-                      },
-                      head_cell: {
-                        color: "#D2AC71",
-                        fontSize: "13px",
-                        paddingBottom: "10px",
-                        backgroundColor: "#3C3C3C",
-                        textTransform: "uppercase",
-                      },
-                      table: { backgroundColor: "transparent" },
-                      day: {
-                        borderRadius: "8px",
-                        color: "white",
-                        fontSize: "12px",
-                        fontWeight: "500",
-                        padding: "10px",
-                        margin: "3px",
-                        backgroundColor: "#5A5A5A",
-                        border: "none",
-                        outline: "none",
-                      },
-                      day_hover: { backgroundColor: "#D2AC71", color: "black" },
-                      day_focused: {
-                        backgroundColor: "#D2AC71",
-                        color: "black",
-                        outline: "none",
-                      },
-                      day_selected: {
-                        backgroundColor: "#D2AC71",
-                        color: "black",
-                        fontWeight: "bold",
-                        borderRadius: "8px",
-                      },
-                      day_range_start: {
-                        backgroundColor: "#D2AC71",
-                        color: "black",
-                        fontWeight: "bold",
-                        borderRadius: "8px",
-                      },
-                      day_range_end: {
-                        backgroundColor: "#D2AC71",
-                        color: "black",
-                        fontWeight: "bold",
-                        borderRadius: "8px",
-                      },
-                      day_range_middle: {
-                        backgroundColor: "#F5E1BB",
-                        color: "black",
-                        borderRadius: "0px",
-                      },
-                      day_outside: {
-                        color: "#5A5A5A",
-                        backgroundColor: "transparent",
-                      },
-                      day_disabled: { color: "#3C3C3C" },
-                      day_today: {
-                        border: "1px solid #D2AC71",
-                        borderRadius: "8px",
-                      },
-                      nav_button: {
-                        color: "#D2AC71",
-                        background: "transparent",
-                        border: "none",
-                        padding: "8px",
-                        fontSize: "16px",
-                      },
-                      nav_button_previous: { marginRight: "10px" },
-                      nav_button_next: { marginLeft: "10px" },
-                    }}
-                    modifiersStyles={{
-                      selected: {
-                        backgroundColor: "#D2AC71",
-                        color: "black",
-                      },
-                      range_start: {
-                        backgroundColor: "#D2AC71",
-                        color: "black",
-                      },
-                      range_end: {
-                        backgroundColor: "#D2AC71",
-                        color: "black",
-                      },
-                      range_middle: {
-                        backgroundColor: "#F5E1BB",
-                        color: "black",
-                      },
-                    }}
-                    components={{
-                      IconLeft: ({ onClick }) => (
-                        <button
-                          onClick={onClick}
-                          style={{
-                            background: "transparent",
-                            border: "none",
-                            color: "#D2AC71",
-                            cursor: "pointer",
-                          }}
-                          aria-label="Previous month"
-                        >
-                          <FaChevronLeft />
-                        </button>
-                      ),
-                      IconRight: ({ onClick }) => (
-                        <button
-                          onClick={onClick}
-                          style={{
-                            background: "transparent",
-                            border: "none",
-                            color: "#D2AC71",
-                            cursor: "pointer",
-                          }}
-                          aria-label="Next month"
-                        >
-                          <FaChevronRight />
-                        </button>
-                      ),
-                    }}
+                  {/* Chakra Calendar Component */}
+                  <ChakraCalendar
+                    initialMonth={1} // February
+                    initialYear={2025}
+                    selectedRange={dateRange}
+                    onDateSelect={handleDateSelect}
                   />
                 </Box>
               </MenuList>
